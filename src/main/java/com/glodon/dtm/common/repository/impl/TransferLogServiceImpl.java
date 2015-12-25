@@ -2,7 +2,7 @@
  * Copyright By Grandsoft Company Limited.  
  * 2015年12月23日 下午5:42:34
  */
-package com.glodon.dtm.common.service.impl;
+package com.glodon.dtm.common.repository.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +15,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.glodon.dtm.common.model.TransferLog;
-import com.glodon.dtm.common.service.ITransferLogService;
+import com.glodon.dtm.common.repository.ITransferLogService;
 
 @Repository
 public class TransferLogServiceImpl implements ITransferLogService {
