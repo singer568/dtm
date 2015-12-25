@@ -16,8 +16,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.glodon.dtm.common.util.DateUtil;
 import com.glodon.dtm.hd.model.CZ_ExecuteNotice;
-import com.glodon.dtm.util.DateUtil;
 
 @Repository
 public class CZExecuteNoticeService {

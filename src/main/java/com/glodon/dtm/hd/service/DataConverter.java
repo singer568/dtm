@@ -7,9 +7,9 @@ package com.glodon.dtm.hd.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.glodon.dtm.common.util.DateUtil;
 import com.glodon.dtm.hd.model.CZ_ExecuteNotice;
 import com.glodon.dtm.hd.model.HD_ExecuteNotice;
-import com.glodon.dtm.util.DateUtil;
 
 public class DataConverter {
 

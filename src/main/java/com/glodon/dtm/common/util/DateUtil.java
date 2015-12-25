@@ -2,13 +2,18 @@
  * Copyright By Grandsoft Company Limited.  
  * 2015年12月23日 下午4:45:37
  */
-package com.glodon.dtm.util;
+package com.glodon.dtm.common.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DateUtil {
+
+	public static String getCurrentDateStr() {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return format.format(new Date());
+	}
 
 	public static Date getCurrentDate() {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -53,4 +58,5 @@ public class DateUtil {
 
 		return beginDate;
 	}
+
 }

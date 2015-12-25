@@ -1,4 +1,4 @@
-package com.glodon.dtm.config;
+package com.glodon.dtm.common.schedule.config;
 
 import javax.sql.DataSource;
 

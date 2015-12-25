@@ -4,18 +4,22 @@
  */
 package com.glodon.dtm.hd;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.glodon.dtm.common.schedule.model.TransferLog;
+import com.glodon.dtm.common.schedule.service.ITransferDataService;
+import com.glodon.dtm.common.schedule.service.ITransferLogService;
+import com.glodon.dtm.common.util.DateUtil;
+import com.glodon.dtm.common.util.ExceptionUtil;
 import com.glodon.dtm.hd.model.CZ_ExecuteNotice;
 import com.glodon.dtm.hd.model.HD_ExecuteNotice;
 import com.glodon.dtm.hd.service.CZExecuteNoticeService;
 import com.glodon.dtm.hd.service.DataConverter;
 import com.glodon.dtm.hd.service.HDExecuteNoticeService;
-import com.glodon.dtm.model.TransferLog;
-import com.glodon.dtm.service.ITransferDataService;
 
 @Component
 public class TransferDataServiceImpl implements ITransferDataService {
@@ -26,19 +30,55 @@ public class TransferDataServiceImpl implements ITransferDataService {
 	@Autowired
 	private HDExecuteNoticeService hdService;
 
-	public TransferLog transferData() {
-		TransferLog log = new TransferLog();
-		List<CZ_ExecuteNotice> czLst = czService.findCurrentDay();
+	@Autowired
+	private ITransferLogService logService;
 
+	public void transferData() {
+		TransferLog log = new TransferLog();
+		log.setStartDate(new Date());
+		log.setLongStartDate(System.currentTimeMillis() + "");
+
+		StringBuffer allIds = new StringBuffer();
+		StringBuffer successIds = new StringBuffer();
+		StringBuffer failIds = new StringBuffer();
+		StringBuffer noIds = new StringBuffer();
+		StringBuffer failInfo = new StringBuffer();
+
+		List<CZ_ExecuteNotice> czLst = czService.findCurrentDay();
 		List<HD_ExecuteNotice> hdLst = DataConverter.convertDatas(czLst);
 
 		for (int i = 0; null != hdLst && i < hdLst.size(); i++) {
-			boolean isExist = hdService.isExists(hdLst.get(i).getXmid());
-			if (!isExist) {
-				hdService.save(hdLst.get(i));
+			HD_ExecuteNotice tmp = hdLst.get(i);
+			allIds.append(tmp.getXmid()).append(",");
+
+			try {
+				boolean isExist = hdService.isExists(hdLst.get(i).getXmid());
+				if (!isExist) {
+					hdService.save(hdLst.get(i));
+					successIds.append(tmp.getXmid()).append(",");
+				} else {
+					noIds.append(tmp.getXmid()).append(",");
+				}
+
+			} catch (Exception e) {
+				failIds.append(tmp.getXmid()).append(",");
+				failInfo.append("{").append(tmp.getXmid()).append(",").append(ExceptionUtil.getStackMsg(e)).append("}");
 			}
 		}
-		return log;
+		log.setFailIds(failIds.toString());
+		log.setSuccessIds(successIds.toString());
+		log.setAllIds(allIds.toString());
+		log.setFailInfo(failInfo.toString());
+		log.setNoIds(noIds.toString());
+
+		log.setEndDate(new Date());
+		log.setLongEndDate(System.currentTimeMillis() + "");
+
+		log.setCosts((Long.valueOf(log.getLongEndDate()) - Long.valueOf(log.getLongStartDate())) + "");
+
+		log.setPk("000000000000000000000" + DateUtil.getCurrentDateStr());//40位主键
+
+		logService.save(log);
 	}
 
 }
