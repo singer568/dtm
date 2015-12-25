@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.glodon.dtm.common.model.TransferLog;
 import com.glodon.dtm.common.service.ITransferDataService;
@@ -21,7 +21,7 @@ import com.glodon.dtm.hd.service.CZExecuteNoticeService;
 import com.glodon.dtm.hd.service.DataConverter;
 import com.glodon.dtm.hd.service.HDExecuteNoticeService;
 
-@Component
+@Service
 public class TransferDataServiceImpl implements ITransferDataService {
 
 	@Autowired
