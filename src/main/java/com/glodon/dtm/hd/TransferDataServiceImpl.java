@@ -10,9 +10,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.glodon.dtm.common.schedule.model.TransferLog;
-import com.glodon.dtm.common.schedule.service.ITransferDataService;
-import com.glodon.dtm.common.schedule.service.ITransferLogService;
+import com.glodon.dtm.common.model.TransferLog;
+import com.glodon.dtm.common.service.ITransferDataService;
+import com.glodon.dtm.common.service.ITransferLogService;
 import com.glodon.dtm.common.util.DateUtil;
 import com.glodon.dtm.common.util.ExceptionUtil;
 import com.glodon.dtm.hd.model.CZ_ExecuteNotice;

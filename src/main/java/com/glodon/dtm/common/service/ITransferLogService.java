@@ -2,11 +2,11 @@
  * Copyright By Grandsoft Company Limited.  
  * 2015年12月23日 下午5:39:25
  */
-package com.glodon.dtm.common.schedule.service;
+package com.glodon.dtm.common.service;
 
 import java.util.List;
 
-import com.glodon.dtm.common.schedule.model.TransferLog;
+import com.glodon.dtm.common.model.TransferLog;
 
 public interface ITransferLogService {
 

@@ -2,7 +2,7 @@
  * Copyright By Grandsoft Company Limited.  
  * 2015年12月23日 下午5:40:04
  */
-package com.glodon.dtm.common.schedule.model;
+package com.glodon.dtm.common.model;
 
 import java.io.Serializable;
 import java.util.Date;
