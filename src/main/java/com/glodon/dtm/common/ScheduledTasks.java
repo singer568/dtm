@@ -17,7 +17,7 @@ public class ScheduledTasks {
 	private ITransferDataService tranService;
 
 	//每1分钟执行一次
-	@Scheduled(cron = "*/5 * *  * * * ")
+	@Scheduled(cron = "${schedule.repeat}")
 	public void reportCurrentByCron() {
 		tranService.transferData();
 	}
