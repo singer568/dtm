@@ -6,11 +6,11 @@ package com.glodon.dtm.common.repository;
 
 import java.util.List;
 
-import com.glodon.dtm.common.model.TransferLog;
+import com.glodon.dtm.common.model.Log;
 
-public interface ITransferLogService {
+public interface ILogRepository {
 
-	List<TransferLog> findAll();
+	List<Log> findAll();
 
-	int save(TransferLog log);
+	int save(Log log);
 }

@@ -7,7 +7,7 @@ package com.glodon.dtm.common.model;
 import java.io.Serializable;
 import java.util.Date;
 
-public class TransferLog implements Serializable {
+public class Log implements Serializable {
 
 	/** */
 	private static final long serialVersionUID = -8129020285615188687L;
@@ -60,7 +60,7 @@ public class TransferLog implements Serializable {
 
 	public static final String NOIDS = "noIds";
 
-	public TransferLog() {
+	public Log() {
 	}
 
 	public String getNoIds() {

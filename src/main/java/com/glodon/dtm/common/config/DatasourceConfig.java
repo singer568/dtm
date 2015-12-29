@@ -23,6 +23,11 @@ public class DatasourceConfig {
 		return new JdbcTemplate(secondaryDataSource);
 	}
 
+	@Bean(name = "jdbcThirdTemplate")
+	public JdbcTemplate jdbcThirdTemplate(@Qualifier(value = "thirdDataSource") DataSource secondaryDataSource) {
+		return new JdbcTemplate(secondaryDataSource);
+	}
+
 	@Bean(name = "primaryDataSource")
 	@Primary
 	@ConfigurationProperties(prefix = "datasource.primary")
@@ -35,4 +40,11 @@ public class DatasourceConfig {
 	public DataSource secondaryDataSource() {
 		return DataSourceBuilder.create().build();
 	}
+
+	@Bean(name = "thirdDataSource")
+	@ConfigurationProperties(prefix = "datasource.third")
+	public DataSource thirdDataSource() {
+		return DataSourceBuilder.create().build();
+	}
+
 }

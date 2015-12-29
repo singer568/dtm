@@ -1,4 +1,4 @@
-package com.glodon.dtm.common.schedule;
+package com.glodon.dtm.common.config;
 
 import org.quartz.spi.TriggerFiredBundle;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;

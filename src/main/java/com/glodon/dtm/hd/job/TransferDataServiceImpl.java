@@ -2,7 +2,7 @@
  * Copyright By Grandsoft Company Limited.  
  * 2015年12月23日 下午4:43:39
  */
-package com.glodon.dtm.hd;
+package com.glodon.dtm.hd.job;
 
 import java.util.Date;
 import java.util.List;
@@ -10,9 +10,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.glodon.dtm.common.model.TransferLog;
-import com.glodon.dtm.common.repository.ITransferLogService;
-import com.glodon.dtm.common.service.ITransferDataService;
+import com.glodon.dtm.common.model.Log;
+import com.glodon.dtm.common.plugin.ITransferService;
+import com.glodon.dtm.common.repository.ILogRepository;
 import com.glodon.dtm.common.util.DateUtil;
 import com.glodon.dtm.common.util.ExceptionUtil;
 import com.glodon.dtm.hd.model.CZ_ExecuteNotice;
@@ -22,7 +22,7 @@ import com.glodon.dtm.hd.service.DataConverter;
 import com.glodon.dtm.hd.service.HDExecuteNoticeService;
 
 @Service
-public class TransferDataServiceImpl implements ITransferDataService {
+public class TransferDataServiceImpl implements ITransferService {
 
 	@Autowired
 	private CZExecuteNoticeService czService;
@@ -31,10 +31,10 @@ public class TransferDataServiceImpl implements ITransferDataService {
 	private HDExecuteNoticeService hdService;
 
 	@Autowired
-	private ITransferLogService logService;
+	private ILogRepository logService;
 
-	public void transferData() {
-		TransferLog log = new TransferLog();
+	public void transfer() {
+		Log log = new Log();
 		log.setStartDate(new Date());
 		log.setLongStartDate(System.currentTimeMillis() + "");
 
