@@ -51,20 +51,24 @@ public class TransferDataServiceImpl implements ITransferService {
 		if ("TODAY".equals(hdConfig.getCondition())) {
 			czLst = czService.findCurrentDay();
 		} else {
-			if("ALL".equals(hdConfig.getCondition())){
+			if ("ALL".equals(hdConfig.getCondition())) {
 				czLst = czService.findAll();
 			} else {
 				throw new RuntimeException("需要在application.properties配置condition");
 			}
 		}
-		
 
 		List<HD_ExecuteNotice> hdLst = DataConverter.convertDatas(czLst);
 
 		for (int i = 0; null != hdLst && i < hdLst.size(); i++) {
 			HD_ExecuteNotice tmp = hdLst.get(i);
 			allIds.append(tmp.getXmid()).append(",");
-
+			if (tmp.getAgency_code() == null || tmp.getTender_way() == null || tmp.getNotice_code() == null) {
+				failIds.append(tmp.getXmid()).append(",");
+				failInfo.append("{通知书编号:").append(tmp.getNotice_code()).append("#招标代理机构:").append(tmp.getAgency_code()).append("#采购方式:")
+						.append(tmp.getTender_way()).append("#项目ID:").append(tmp.getXmid()).append("};");
+				continue;
+			}
 			try {
 				boolean isExist = hdService.isExists(hdLst.get(i).getXmid());
 				if (!isExist) {
@@ -76,7 +80,7 @@ public class TransferDataServiceImpl implements ITransferService {
 
 			} catch (Exception e) {
 				failIds.append(tmp.getXmid()).append(",");
-				failInfo.append("{").append(tmp.getXmid()).append(",").append(ExceptionUtil.getStackMsg(e)).append("}");
+				failInfo.append("{").append(tmp.getXmid()).append(",").append(ExceptionUtil.getStackMsg(e)).append("};");
 			}
 		}
 		log.setFailIds(failIds.toString());

@@ -5,7 +5,7 @@
 	<groupId>com.glodon.dtm</groupId>
 	<artifactId>dtm</artifactId>
 	<version>1.0-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -28,7 +28,6 @@
          <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
-            <version>1.6.2</version>
         </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -111,10 +110,10 @@
 				</configuration>
 			</plugin>
 
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
+<!-- 			<plugin> -->
+<!-- 				<groupId>org.springframework.boot</groupId> -->
+<!-- 				<artifactId>spring-boot-maven-plugin</artifactId> -->
+<!-- 			</plugin> -->
 		</plugins>
 	</build>
 

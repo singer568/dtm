@@ -25,6 +25,11 @@ public class DataConverter {
 		return lst;
 	}
 
+	/**
+	 * 招标办代理机构，采购方式，执行通知书编号，项目类别
+	 * @param cz
+	 * @return
+	 */
 	public static HD_ExecuteNotice convertOne(CZ_ExecuteNotice cz) {
 		HD_ExecuteNotice hd = new HD_ExecuteNotice();
 		hd.setXmid(cz.getXMID().toString());
@@ -37,7 +42,7 @@ public class DataConverter {
 		hd.setFinance_aid_amount(cz.getCZBZJE());
 		hd.setFinance_special_amount(cz.getCZZHZJ());
 		hd.setOther_amount(cz.getQTZJ());
-		hd.setProject_category_code(cz.getXMLBDM().toString());
+		hd.setProject_category_code(cz.getXMLBDM() == null ? null : cz.getXMLBDM().toString());
 		hd.setProject_category(cz.getXMLBMC());
 		hd.setAdvance_item(cz.getSFYCX().toString());
 		hd.setEquity(cz.getSFGZ().toString());
@@ -57,7 +62,7 @@ public class DataConverter {
 		hd.setIs_cancel(cz.getSFZF().toString());
 		hd.setTimestamp(cz.getSJ());
 		hd.setCreate_date(DateUtil.getCurrentDate());
-		hd.setTender_way(getTenderWay(cz.getCGFSDM().toString()));
+		hd.setTender_way(cz.getCGFSDM() == null ? null : getTenderWay(cz.getCGFSDM().toString()));
 		hd.setExecute_notice_id(cz.getXMID().toString());
 		hd.setAgency_id("");
 		hd.setOwner_id("");
@@ -70,7 +75,7 @@ public class DataConverter {
 		//1公开招标  2邀请招标  3竞争性谈判  4单一来源  5询价  6竞争性磋商  7其它
 		//	GKZB("公开招标"), YQZB("邀请招标"), ZJFB("直接发包"), JZXTP("竞争性谈判"), DYLY("单一来源"), XJCG("询价采购"), WSXJ("网上询价"), CGK("采购卡"), ZXCG("自行采购"), WSXG("网上选购");
 
-		String code = "OTHER";
+		String code = null;
 		if ("1".equals(cz)) {
 			code = "GKZB";
 		}
