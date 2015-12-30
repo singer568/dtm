@@ -3,6 +3,7 @@ package com.glodon.dtm.hd.job;
 import org.quartz.CronTrigger;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,13 +15,12 @@ import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 @Configuration
 public class JobConfig {
 
-	public static final String JOB_NAME = "JOB_NAME_HDCZTRANSFER";
-
-	public static final String GROUP_NAME = "GROUP_NAME_HDCZTRANSFER";
+	@Autowired
+	private HDConfig hdConfig;
 
 	@Bean
 	public JobDetail buildJob() {
-		return JobBuilder.newJob(TransferJob.class).withIdentity(JOB_NAME, GROUP_NAME).build();
+		return JobBuilder.newJob(TransferJob.class).withIdentity(hdConfig.getJob(), hdConfig.getGroup()).build();
 	}
 
 	@Bean
@@ -34,9 +34,9 @@ public class JobConfig {
 		stFactory.setStartDelay(3000);
 		stFactory.setJobDetail(buildJob());
 		stFactory.isSingleton();
-		stFactory.setCronExpression("*/5 * * * * ?");
-		stFactory.setName(JOB_NAME);
-		stFactory.setGroup(GROUP_NAME);
+		stFactory.setCronExpression(hdConfig.getCron());
+		stFactory.setName(hdConfig.getJob());
+		stFactory.setGroup(hdConfig.getGroup());
 		//		stFactory.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
 		//		stFactory.setRepeatInterval(TimeUnit.MILLISECONDS.convert(5, TimeUnit.SECONDS));
 		return stFactory;

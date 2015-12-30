@@ -196,6 +196,9 @@ public class CZ_ExecuteNotice implements Serializable {
 	}
 
 	public BigDecimal getXMLBDM() {
+		if (XMLBDM == null) {
+			return new BigDecimal("-1");
+		}
 		return XMLBDM;
 	}
 

@@ -33,6 +33,9 @@ public class TransferDataServiceImpl implements ITransferService {
 	@Autowired
 	private ILogRepository logService;
 
+	@Autowired
+	private HDConfig hdConfig;
+
 	public void transfer() {
 		Log log = new Log();
 		log.setStartDate(new Date());
@@ -43,8 +46,18 @@ public class TransferDataServiceImpl implements ITransferService {
 		StringBuffer failIds = new StringBuffer();
 		StringBuffer noIds = new StringBuffer();
 		StringBuffer failInfo = new StringBuffer();
+		List<CZ_ExecuteNotice> czLst = null;
+		if ("TODAY".equals(hdConfig.getCondition())) {
+			czLst = czService.findCurrentDay();
+		} else {
+			if("ALL".equals(hdConfig.getCondition())){
+				czLst = czService.findAll();
+			} else {
+				throw new RuntimeException("需要在application.properties配置condition");
+			}
+		}
+		
 
-		List<CZ_ExecuteNotice> czLst = czService.findCurrentDay();
 		List<HD_ExecuteNotice> hdLst = DataConverter.convertDatas(czLst);
 
 		for (int i = 0; null != hdLst && i < hdLst.size(); i++) {
