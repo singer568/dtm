@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 
+import com.glodon.dtm.common.config.ExtraScheduleConfig;
+
 /**
  * Created by andrew on 11/27/15.
  */
@@ -16,11 +18,11 @@ import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 public class JobConfig {
 
 	@Autowired
-	private HDConfig hdConfig;
+	private ExtraScheduleConfig extraConfig;
 
 	@Bean
 	public JobDetail buildJob() {
-		return JobBuilder.newJob(TransferJob.class).withIdentity(hdConfig.getJob(), hdConfig.getGroup()).build();
+		return JobBuilder.newJob(TransferJob.class).withIdentity(extraConfig.getJob(), extraConfig.getGroup()).build();
 	}
 
 	@Bean
@@ -34,9 +36,9 @@ public class JobConfig {
 		stFactory.setStartDelay(3000);
 		stFactory.setJobDetail(buildJob());
 		stFactory.isSingleton();
-		stFactory.setCronExpression(hdConfig.getCron());
-		stFactory.setName(hdConfig.getJob());
-		stFactory.setGroup(hdConfig.getGroup());
+		stFactory.setCronExpression(extraConfig.getCron());
+		stFactory.setName(extraConfig.getJob());
+		stFactory.setGroup(extraConfig.getGroup());
 		//		stFactory.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
 		//		stFactory.setRepeatInterval(TimeUnit.MILLISECONDS.convert(5, TimeUnit.SECONDS));
 		return stFactory;

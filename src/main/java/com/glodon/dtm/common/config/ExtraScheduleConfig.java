@@ -2,12 +2,12 @@
  * Copyright By Grandsoft Company Limited.  
  * 2015年12月30日 上午9:47:03
  */
-package com.glodon.dtm.hd.job;
+package com.glodon.dtm.common.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "hd.schedule")
-public class HDConfig {
+@ConfigurationProperties(prefix = "extra.schedule")
+public class ExtraScheduleConfig {
 
 	/** 取数频率 */
 	private String cron;

@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.glodon.dtm.common.config.ExtraScheduleConfig;
 import com.glodon.dtm.common.model.Log;
 import com.glodon.dtm.common.plugin.ITransferService;
 import com.glodon.dtm.common.repository.ILogRepository;
@@ -34,7 +35,7 @@ public class TransferDataServiceImpl implements ITransferService {
 	private ILogRepository logService;
 
 	@Autowired
-	private HDConfig hdConfig;
+	private ExtraScheduleConfig hdConfig;
 
 	public void transfer() {
 		Log log = new Log();
