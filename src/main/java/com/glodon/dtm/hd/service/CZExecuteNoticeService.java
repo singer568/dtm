@@ -33,6 +33,13 @@ public class CZExecuteNoticeService {
 		return notice;
 	}
 
+	public  List<CZ_ExecuteNotice> findDatePair(Date startDate, Date endDate) {
+		List<CZ_ExecuteNotice> notices = jdbcSecondaryTemplate.query("SELECT * FROM v_hdggzy_cglx where SJ>=? and SJ<=?",
+				new Date[] { startDate, endDate }, new CZExecuteNoticeMapper());
+
+		return notices;
+	}
+	
 	public List<CZ_ExecuteNotice> findCurrentDay() {
 		List<CZ_ExecuteNotice> notices = jdbcSecondaryTemplate.query("SELECT * FROM v_hdggzy_cglx where SJ>=? and SJ<=?",
 				new Date[] { DateUtil.getBeginDate(), DateUtil.getEndDate() }, new CZExecuteNoticeMapper());

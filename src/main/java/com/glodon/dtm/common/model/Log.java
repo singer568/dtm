@@ -28,19 +28,29 @@ public class Log implements Serializable {
 
 	private String allIds;
 
+	private String allCount;
+
 	private String successIds;
 
+	private String successCount;
+
 	private String failIds;
+
+	private String failCount;
 
 	private String failInfo;
 
 	private String noIds;
+
+	private String noCount;
 
 	public static final String PK = "pk";
 
 	public static final String STARTDATE = "startDate";
 
 	public static final String ENDDATE = "endDate";
+
+	public static final String SUCCESSCOUNT = "successCount";
 
 	public static final String COSTS = "costs";
 
@@ -50,6 +60,8 @@ public class Log implements Serializable {
 
 	public static final String FAILIDS = "failIds";
 
+	public static final String FAILCOUNT = "failCount";
+
 	public static final String FAILINFO = "failInfo";
 
 	public static final String LONGSTARTDATE = "longStartDate";
@@ -58,9 +70,45 @@ public class Log implements Serializable {
 
 	public static final String ALLIDS = "allIds";
 
+	public static final String ALLCOUNT = "allCount";
+
 	public static final String NOIDS = "noIds";
 
+	public static final String NOCOUNT = "noCount";
+
 	public Log() {
+	}
+
+	public String getAllCount() {
+		return allCount;
+	}
+
+	public void setAllCount(String allCount) {
+		this.allCount = allCount;
+	}
+
+	public String getSuccessCount() {
+		return successCount;
+	}
+
+	public void setSuccessCount(String successCount) {
+		this.successCount = successCount;
+	}
+
+	public String getFailCount() {
+		return failCount;
+	}
+
+	public void setFailCount(String failCount) {
+		this.failCount = failCount;
+	}
+
+	public String getNoCount() {
+		return noCount;
+	}
+
+	public void setNoCount(String noCount) {
+		this.noCount = noCount;
 	}
 
 	public String getNoIds() {

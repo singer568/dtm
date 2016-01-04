@@ -8,4 +8,8 @@ package com.glodon.dtm.common.plugin;
 public interface ITransferService {
 
 	public void transfer();
+	
+	
+	public void transferOne(String pk);
+	
 }

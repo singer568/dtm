@@ -4,7 +4,13 @@
  */
 package com.glodon.dtm.common.config;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import com.glodon.dtm.common.util.DateUtil;
 
 @ConfigurationProperties(prefix = "extra.schedule")
 public class ExtraScheduleConfig {
@@ -12,8 +18,9 @@ public class ExtraScheduleConfig {
 	/** 取数频率 */
 	private String cron;
 
-	/** 查询条件 */
-	private String condition;
+	private String startDate;
+
+	private String endDate;
 
 	private String job;
 
@@ -43,12 +50,47 @@ public class ExtraScheduleConfig {
 		this.cron = cron;
 	}
 
-	public String getCondition() {
-		return condition;
+	public String getStartDate() {
+		return startDate;
 	}
 
-	public void setCondition(String condition) {
-		this.condition = condition;
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
 	}
 
+	public String getEndDate() {
+
+		return endDate;
+	}
+
+	public Date getDateEnd() {
+		if (endDate == null) {
+			return DateUtil.getBeginDate();
+		}
+
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			return format.parse(endDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public Date getDateBegin() {
+		if (startDate == null) {
+			return DateUtil.getEndDate();
+		}
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			return format.parse(startDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
 }

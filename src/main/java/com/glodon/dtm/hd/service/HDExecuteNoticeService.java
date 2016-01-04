@@ -33,6 +33,12 @@ public class HDExecuteNoticeService {
 		return notice;
 	}
 
+	public int deleteByPk(String xmid) {
+		int count = jdbcPrinaryTemplate.update("delete FROM gb_t_execute_notice WHERE XMID=" + xmid);
+
+		return count;
+	}
+
 	public boolean isExists(String xmid) {
 		int count = jdbcPrinaryTemplate.queryForObject("SELECT count(1) FROM gb_t_execute_notice WHERE XMID=?", new BigDecimal[] { new BigDecimal(
 				xmid) }, Integer.class);

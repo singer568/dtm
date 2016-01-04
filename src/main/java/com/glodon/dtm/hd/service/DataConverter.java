@@ -14,7 +14,7 @@ import com.glodon.dtm.hd.model.HD_ExecuteNotice;
 public class DataConverter {
 
 	public static List<HD_ExecuteNotice> convertDatas(List<CZ_ExecuteNotice> czs) {
-		if (czs == null || czs.size() < 1){
+		if (czs == null || czs.size() < 1) {
 			return null;
 		}
 		List<HD_ExecuteNotice> lst = new ArrayList<HD_ExecuteNotice>();
@@ -31,6 +31,9 @@ public class DataConverter {
 	 * @return
 	 */
 	public static HD_ExecuteNotice convertOne(CZ_ExecuteNotice cz) {
+		if (cz == null) {
+			return null;
+		}
 		HD_ExecuteNotice hd = new HD_ExecuteNotice();
 		hd.setXmid(cz.getXMID().toString());
 		hd.setProcurement_unit_code(cz.getCGDWDM());
@@ -64,9 +67,9 @@ public class DataConverter {
 		hd.setCreate_date(DateUtil.getCurrentDate());
 		hd.setTender_way(cz.getCGFSDM() == null ? null : getTenderWay(cz.getCGFSDM().toString()));
 		hd.setExecute_notice_id(cz.getXMID().toString());
+		hd.setRecord_status("COMMITTED");
 		hd.setAgency_id("");
 		hd.setOwner_id("");
-		hd.setRecord_status("COMMITTED");
 
 		return hd;
 	}

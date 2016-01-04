@@ -2,7 +2,7 @@
  * Copyright By Grandsoft Company Limited.  
  * 2015年12月27日 下午6:38:28
  */
-package com.glodon.dtm.common.schedule.impl;
+package com.glodon.dtm.common.service.impl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 
 import com.glodon.dtm.common.model.Task;
 import com.glodon.dtm.common.repository.ITaskRepository;
-import com.glodon.dtm.common.schedule.IScheduleService;
+import com.glodon.dtm.common.service.IScheduleService;
 
 @Service
 public class ScheduleServiceImpl implements IScheduleService {

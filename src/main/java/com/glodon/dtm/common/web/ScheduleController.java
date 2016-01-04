@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.glodon.dtm.common.model.Task;
-import com.glodon.dtm.common.schedule.IScheduleService;
+import com.glodon.dtm.common.plugin.ITransferService;
+import com.glodon.dtm.common.service.IScheduleService;
 
 @RestController
 @RequestMapping("/schedule")
@@ -22,15 +23,28 @@ public class ScheduleController {
 	@Autowired
 	private IScheduleService scheduleService;
 
+	@Autowired
+	private ITransferService tranService;
+
 	@RequestMapping(value = "/{pk}", method = RequestMethod.GET)
-	public void get(@PathVariable String pk) {
+	public void delete(@PathVariable String pk) {
 		scheduleService.delete(pk);
 	}
 
-	@RequestMapping(value = "/all", method = RequestMethod.GET)
+	@RequestMapping(value = "/running", method = RequestMethod.GET)
 	public List<Task> getAll() {
 		List<Task> result = scheduleService.queryRunnningJobs();
-		System.out.println(result);
 		return result;
 	}
+
+	@RequestMapping(value = "/runone/{pk}", method = RequestMethod.GET)
+	public void runOne(@PathVariable String pk) {
+		tranService.transferOne(pk);
+	}
+
+	@RequestMapping(value = "/runall", method = RequestMethod.GET)
+	public void run() {
+		tranService.transfer();
+	}
+
 }

@@ -2,7 +2,7 @@
  * Copyright By Grandsoft Company Limited.  
  * 2015年12月27日 下午6:38:28
  */
-package com.glodon.dtm.common.schedule;
+package com.glodon.dtm.common.service;
 
 import java.util.List;
 

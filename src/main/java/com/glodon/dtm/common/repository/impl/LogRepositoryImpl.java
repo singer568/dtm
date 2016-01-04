@@ -32,11 +32,12 @@ public class LogRepositoryImpl implements ILogRepository {
 
 	public int save(Log log) {
 		StringBuffer sql = new StringBuffer()
-				.append("insert into dtm_logs (pk,startDate,longStartDate, endDate, longEndDate, costs,createDate,allIds,noIds, successIds,failIds,failInfo) ")
-				.append(" values(?,?,?,?,?,?,?,?,?,?,?,?)");
+				.append("insert into dtm_logs (pk,startDate,longStartDate, endDate, longEndDate, costs,createDate,allIds,noIds, successIds,failIds,failInfo,allCount,successCount,failCount,noCount) ")
+				.append(" values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
 		Object[] params = new Object[] { log.getPk(), log.getStartDate(), log.getLongStartDate(), log.getEndDate(), log.getLongEndDate(),
-				log.getCosts(), log.getCreateDate(), log.getAllIds(), log.getNoIds(), log.getSuccessIds(), log.getFailIds(), log.getFailInfo() };
+				log.getCosts(), log.getCreateDate(), log.getAllIds(), log.getNoIds(), log.getSuccessIds(), log.getFailIds(), log.getFailInfo(),
+				log.getAllCount(), log.getSuccessCount(), log.getFailCount(), log.getNoCount() };
 
 		int count = jdbcThirdTemplate.update(sql.toString(), params);
 
@@ -59,6 +60,10 @@ public class LogRepositoryImpl implements ILogRepository {
 			log.setStartDate(rs.getDate(Log.STARTDATE));
 			log.setSuccessIds(rs.getString(Log.SUCCESSIDS));
 			log.setAllIds(Log.ALLIDS);
+			log.setAllCount(rs.getString(Log.ALLCOUNT));
+			log.setSuccessCount(rs.getString(Log.SUCCESSCOUNT));
+			log.setFailCount(rs.getString(Log.FAILCOUNT));
+			log.setNoCount(rs.getString(Log.NOCOUNT));
 			return log;
 		}
 
