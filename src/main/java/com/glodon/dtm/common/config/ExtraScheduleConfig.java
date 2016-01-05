@@ -64,7 +64,7 @@ public class ExtraScheduleConfig {
 	}
 
 	public Date getDateEnd() {
-		if (endDate == null) {
+		if (endDate == null || "".equals(endDate.trim())) {
 			return DateUtil.getBeginDate();
 		}
 
@@ -78,7 +78,7 @@ public class ExtraScheduleConfig {
 	}
 
 	public Date getDateBegin() {
-		if (startDate == null) {
+		if (startDate == null || "".equals(startDate.trim())) {
 			return DateUtil.getEndDate();
 		}
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
