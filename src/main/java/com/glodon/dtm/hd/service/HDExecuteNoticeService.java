@@ -18,6 +18,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.glodon.dtm.hd.model.HD_ExecuteNotice;
+import com.glodon.dtm.hd.model.HD_ExecuteNoticeDetail;
+import com.glodon.dtm.hd.model.HD_ExecuteNoticeTZ;
 
 @Repository
 public class HDExecuteNoticeService {
@@ -26,22 +28,22 @@ public class HDExecuteNoticeService {
 	@Qualifier("jdbcPrimaryTemplate")
 	private JdbcTemplate jdbcPrinaryTemplate;
 
-	public HD_ExecuteNotice findOne(String xmid) {
-		HD_ExecuteNotice notice = jdbcPrinaryTemplate.queryForObject("SELECT * FROM gb_t_execute_notice WHERE XMID=?",
-				new BigDecimal[] { new BigDecimal(xmid) }, new HDExecuteNoticeMapper());
+	public HD_ExecuteNotice findOne(BigDecimal xmid) {
+		HD_ExecuteNotice notice = jdbcPrinaryTemplate.queryForObject("SELECT * FROM gb_t_execute_notice WHERE XMID=?", new BigDecimal[] { xmid },
+				new HDExecuteNoticeMapper());
 
 		return notice;
 	}
 
-	public int deleteByPk(String xmid) {
+	public int deleteByPk(BigDecimal xmid) {
 		int count = jdbcPrinaryTemplate.update("delete FROM gb_t_execute_notice WHERE XMID=" + xmid);
 
 		return count;
 	}
 
-	public boolean isExists(String xmid) {
-		int count = jdbcPrinaryTemplate.queryForObject("SELECT count(1) FROM gb_t_execute_notice WHERE XMID=?", new BigDecimal[] { new BigDecimal(
-				xmid) }, Integer.class);
+	public boolean isExists(BigDecimal xmid) {
+		int count = jdbcPrinaryTemplate.queryForObject("SELECT count(1) FROM gb_t_execute_notice WHERE XMID=?",
+				new BigDecimal[] { xmid}, Integer.class);
 		if (count > 0) {
 			return true;
 		}
@@ -49,6 +51,37 @@ public class HDExecuteNoticeService {
 		return false;
 	}
 
+	public boolean isExistsDetail(BigDecimal xmid) {
+		int count = jdbcPrinaryTemplate.queryForObject("SELECT count(1) FROM gb_t_execute_notice_item WHERE XMID=?",
+				new BigDecimal[] { xmid}, Integer.class);
+		if (count > 0) {
+			return true;
+		}
+
+		return false;
+	}
+	
+	public int deleteDetailByPk(BigDecimal xmid) {
+		int count = jdbcPrinaryTemplate.update("delete FROM gb_t_execute_notice_item WHERE XMID=" + xmid);
+
+		return count;
+	}
+	public boolean isExistsTZ(BigDecimal xmid) {
+		int count = jdbcPrinaryTemplate.queryForObject("SELECT count(1) FROM gb_t_execute_notice_change WHERE XMID=?",
+				new BigDecimal[] { xmid}, Integer.class);
+		if (count > 0) {
+			return true;
+		}
+
+		return false;
+	}
+	public int deleteTZByPk(BigDecimal xmid) {
+		int count = jdbcPrinaryTemplate.update("delete FROM gb_t_execute_notice_change WHERE XMID=" + xmid);
+
+		return count;
+	}
+	
+	
 	public List<HD_ExecuteNotice> findAll() {
 		List<HD_ExecuteNotice> notices = jdbcPrinaryTemplate.query("SELECT * FROM gb_t_execute_notice", new HDExecuteNoticeMapper());
 
@@ -73,6 +106,32 @@ public class HDExecuteNoticeService {
 				notice.getFinance_person(), notice.getFinance_phone(), notice.getAgency_name(), notice.getAgency_code(), notice.getAgency_id(),
 				notice.getAgency_contact_person(), notice.getEstablish_date(), notice.getIs_cancel(), notice.getTimestamp(), notice.getCreate_date(),
 				notice.getOwner_id(), notice.getTender_way(), notice.getRecord_status() };
+
+		int count = jdbcPrinaryTemplate.update(sql.toString(), params);
+
+		return count;
+	}
+
+	public int saveDetail(HD_ExecuteNoticeDetail notice) {
+		StringBuffer sql = new StringBuffer()
+				.append("insert into gb_t_execute_notice_item (ITEM_ID,CREATE_DATE,EXECUTE_NOTICE_ID,PROCUREMENT_AMOUNT,PROCUREMENT_DETAIL,PROCUREMENT_NUMBER,CGMXID,XMID)")
+				.append(" values(?,?,?,?,?,?,?,?)");
+
+		Object[] params = new Object[] { notice.getItem_id(), notice.getCreate_date(), notice.getExecute_notice_id(), notice.getProcurement_amount(),
+				notice.getProcurement_detail(), notice.getProcurement_number(), notice.getCgmxid(), notice.getXmid() };
+
+		int count = jdbcPrinaryTemplate.update(sql.toString(), params);
+
+		return count;
+	}
+
+	public int saveTZ(HD_ExecuteNoticeTZ notice) {
+		StringBuffer sql = new StringBuffer().append(
+				"insert into gb_t_execute_notice_change (CHANGE_ID,EXECUTE_NOTICE_ID,TZCS,TZID,TZJE,TZRQ,TZSM,TZSX,XMID)").append(
+				" values(?,?,?,?,?,?,?,?,?)");
+
+		Object[] params = new Object[] { notice.getChange_id(), notice.getExecute_notice_id(), notice.getTzcs(), notice.getTzid(), notice.getTzje(),
+				notice.getTzrq(), notice.getTzsm(), notice.getTzsx(), notice.getXmid() };
 
 		int count = jdbcPrinaryTemplate.update(sql.toString(), params);
 
@@ -178,6 +237,41 @@ public class HDExecuteNoticeService {
 			notice.setCreate_date(rs.getDate("create_date"));
 			notice.setOwner_id(rs.getString("owner_id"));
 			notice.setRecord_status(rs.getString("record_status"));
+			return notice;
+		}
+
+	}
+
+	private class HDExecuteNoticeDetailMapper implements RowMapper<HD_ExecuteNoticeDetail> {
+
+		public HD_ExecuteNoticeDetail mapRow(ResultSet rs, int rowNum) throws SQLException {
+			HD_ExecuteNoticeDetail notice = new HD_ExecuteNoticeDetail();
+			notice.setItem_id(rs.getString("item_id"));
+			notice.setExecute_notice_id(rs.getString("execute_notice_id"));
+			notice.setCreate_date(rs.getDate("create_date"));
+			notice.setProcurement_amount(rs.getBigDecimal("procurement_amount"));
+			notice.setProcurement_detail(rs.getString("procurement_detail"));
+			notice.setProcurement_number(rs.getBigDecimal("procurement_number"));
+			notice.setCgmxid(rs.getString("cgmxid"));
+			notice.setXmid(rs.getString("xmid"));
+			return notice;
+		}
+
+	}
+
+	private class HDExecuteNoticeTZMapper implements RowMapper<HD_ExecuteNoticeTZ> {
+
+		public HD_ExecuteNoticeTZ mapRow(ResultSet rs, int rowNum) throws SQLException {
+			HD_ExecuteNoticeTZ notice = new HD_ExecuteNoticeTZ();
+			notice.setChange_id(rs.getString("change_id"));
+			notice.setExecute_notice_id(rs.getString("execute_notice_id"));
+			notice.setXmid(rs.getString("xmid"));
+			notice.setTzsx(rs.getString("tzsx"));
+			notice.setTzsm(rs.getString("tzsm"));
+			notice.setTzje(rs.getString("tzje"));
+			notice.setTzrq(rs.getDate("tzrq"));
+			notice.setTzcs(rs.getString("tzcs"));
+			notice.setTzid(rs.getString("tzid"));
 			return notice;
 		}
 

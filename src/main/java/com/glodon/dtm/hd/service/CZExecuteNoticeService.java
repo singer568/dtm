@@ -18,6 +18,8 @@ import org.springframework.stereotype.Repository;
 
 import com.glodon.dtm.common.util.DateUtil;
 import com.glodon.dtm.hd.model.CZ_ExecuteNotice;
+import com.glodon.dtm.hd.model.CZ_ExecuteNoticeDetail;
+import com.glodon.dtm.hd.model.CZ_ExecuteNoticeTZ;
 
 @Repository
 public class CZExecuteNoticeService {
@@ -33,15 +35,15 @@ public class CZExecuteNoticeService {
 		return notice;
 	}
 
-	public  List<CZ_ExecuteNotice> findDatePair(Date startDate, Date endDate) {
-		List<CZ_ExecuteNotice> notices = jdbcSecondaryTemplate.query("SELECT * FROM v_hdggzy_cglx where SJ>=? and SJ<=?",
-				new Date[] { startDate, endDate }, new CZExecuteNoticeMapper());
+	public List<CZ_ExecuteNotice> findDatePair(Date startDate, Date endDate) {
+		List<CZ_ExecuteNotice> notices = jdbcSecondaryTemplate.query("SELECT * FROM v_hdggzy_cglx where SZBSJ>=? and SZBSJ<=?", new Date[] { startDate,
+				endDate }, new CZExecuteNoticeMapper());
 
 		return notices;
 	}
-	
+
 	public List<CZ_ExecuteNotice> findCurrentDay() {
-		List<CZ_ExecuteNotice> notices = jdbcSecondaryTemplate.query("SELECT * FROM v_hdggzy_cglx where SJ>=? and SJ<=?",
+		List<CZ_ExecuteNotice> notices = jdbcSecondaryTemplate.query("SELECT * FROM v_hdggzy_cglx where SZBSJ>=? and SZBSJ<=?",
 				new Date[] { DateUtil.getBeginDate(), DateUtil.getEndDate() }, new CZExecuteNoticeMapper());
 
 		return notices;
@@ -49,6 +51,20 @@ public class CZExecuteNoticeService {
 
 	public List<CZ_ExecuteNotice> findAll() {
 		List<CZ_ExecuteNotice> notices = jdbcSecondaryTemplate.query("SELECT * FROM v_hdggzy_cglx", new CZExecuteNoticeMapper());
+
+		return notices;
+	}
+
+	public List<CZ_ExecuteNoticeDetail> findDetailByXMID(BigDecimal XMID) {
+		List<CZ_ExecuteNoticeDetail> notices = jdbcSecondaryTemplate.query("SELECT * FROM v_hdggzy_cglx_cgmx where XMID=?",
+				new BigDecimal[] { XMID }, new CZExecuteNoticeDetailMapper());
+
+		return notices;
+	}
+
+	public List<CZ_ExecuteNoticeTZ> findTZByXMID(BigDecimal XMID) {
+		List<CZ_ExecuteNoticeTZ> notices = jdbcSecondaryTemplate.query("SELECT * FROM v_hdggzy_cglx_tz where XMID=?",
+				new BigDecimal[] { XMID }, new CZ_ExecuteNoticeTZMapper());
 
 		return notices;
 	}
@@ -90,6 +106,35 @@ public class CZExecuteNoticeService {
 			return notice;
 		}
 
+	}
+
+	private class CZExecuteNoticeDetailMapper implements RowMapper<CZ_ExecuteNoticeDetail> {
+
+		public CZ_ExecuteNoticeDetail mapRow(ResultSet rs, int rowNum) throws SQLException {
+			CZ_ExecuteNoticeDetail notice = new CZ_ExecuteNoticeDetail();
+			notice.setXMID(rs.getBigDecimal("XMID"));
+			notice.setCGMXID(rs.getBigDecimal("CGMXID"));
+			notice.setCGJE(rs.getBigDecimal("CGJE"));
+			notice.setCGSL(rs.getBigDecimal("CGSL"));
+			notice.setCGMX(rs.getString("CGMX"));
+			return notice;
+		}
+	}
+
+	private class CZ_ExecuteNoticeTZMapper implements RowMapper<CZ_ExecuteNoticeTZ> {
+
+		public CZ_ExecuteNoticeTZ mapRow(ResultSet rs, int rowNum) throws SQLException {
+			CZ_ExecuteNoticeTZ notice = new CZ_ExecuteNoticeTZ();
+			notice.setXMID(rs.getBigDecimal("XMID"));
+			notice.setTZSX(rs.getString("TZSX"));
+			notice.setTZSM(rs.getString("TZSM"));
+			notice.setTZJE(rs.getString("TZJE"));
+			notice.setTZRQ(rs.getDate("TZRQ"));
+			notice.setTZCS(rs.getBigDecimal("TZCS"));
+			notice.setTZID(rs.getBigDecimal("TZID"));
+
+			return notice;
+		}
 	}
 
 }

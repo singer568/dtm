@@ -17,6 +17,9 @@ public class Log implements Serializable {
 	private Date startDate;
 
 	private String longStartDate;
+	
+	//传输类型：EXENOTICE;PUBLICITY;EXECPACKAGE
+	private String transType;
 
 	private Date endDate;
 
@@ -75,8 +78,19 @@ public class Log implements Serializable {
 	public static final String NOIDS = "noIds";
 
 	public static final String NOCOUNT = "noCount";
+	
+	public static final String TRANSTYPE = "transType";
 
 	public Log() {
+	}
+	
+	public String getTransType() {
+		return transType;
+	}
+
+	
+	public void setTransType(String transType) {
+		this.transType = transType;
 	}
 
 	public String getAllCount() {

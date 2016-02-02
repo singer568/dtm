@@ -12,5 +12,7 @@ public interface ILogRepository {
 
 	List<Log> findAll();
 
+	Log findLatestLog();
+
 	int save(Log log);
 }

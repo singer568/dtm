@@ -9,36 +9,37 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 
-import com.glodon.dtm.common.config.ExtraScheduleConfig;
+import com.glodon.dtm.hd.ExtraScheduleConfig;
 
 /**
  * Created by andrew on 11/27/15.
  */
 @Configuration
-public class JobConfig {
+public class TransferResultPublicityJobConfig {
 
 	@Autowired
 	private ExtraScheduleConfig extraConfig;
 
 	@Bean
-	public JobDetail buildJob() {
-		return JobBuilder.newJob(TransferJob.class).withIdentity(extraConfig.getJob(), extraConfig.getGroup()).build();
+	public JobDetail buildPublicityJob() {
+		return JobBuilder.newJob(TransferResultPublicityJob.class)
+				.withIdentity(extraConfig.getPublicityJobName(), extraConfig.getPublicityGroupName()).build();
 	}
 
 	@Bean
-	public CronTrigger moduleJobTriggerBean(@Qualifier("transferJobTriggerFactoryBean") CronTriggerFactoryBean jobTriggerFactoryBean) {
+	public CronTrigger publicityJobTriggerBean(@Qualifier("publicityJobTriggerFactoryBean") CronTriggerFactoryBean jobTriggerFactoryBean) {
 		return jobTriggerFactoryBean.getObject();
 	}
 
-	@Bean(name = "transferJobTriggerFactoryBean")
+	@Bean(name = "publicityJobTriggerFactoryBean")
 	public CronTriggerFactoryBean moduleJobTriggerFactoryBean() {
 		CronTriggerFactoryBean stFactory = new CronTriggerFactoryBean();
 		stFactory.setStartDelay(3000);
-		stFactory.setJobDetail(buildJob());
+		stFactory.setJobDetail(buildPublicityJob());
 		stFactory.isSingleton();
-		stFactory.setCronExpression(extraConfig.getCron());
-		stFactory.setName(extraConfig.getJob());
-		stFactory.setGroup(extraConfig.getGroup());
+		stFactory.setCronExpression(extraConfig.getPublicityCron());
+		stFactory.setName(extraConfig.getPublicityJobName());
+		stFactory.setGroup(extraConfig.getPublicityGroupName());
 		//		stFactory.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
 		//		stFactory.setRepeatInterval(TimeUnit.MILLISECONDS.convert(5, TimeUnit.SECONDS));
 		return stFactory;

@@ -24,6 +24,11 @@ public class LogRepositoryImpl implements ILogRepository {
 	@Qualifier("jdbcThirdTemplate")
 	private JdbcTemplate jdbcThirdTemplate;
 
+	public Log findLatestLog() {
+		
+		return null;
+	}
+
 	public List<Log> findAll() {
 		List<Log> logs = jdbcThirdTemplate.query("SELECT * FROM dtm_logs", new TransferLogMapper());
 

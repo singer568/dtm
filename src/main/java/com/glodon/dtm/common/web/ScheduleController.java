@@ -4,9 +4,14 @@
  */
 package com.glodon.dtm.common.web;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,7 +29,8 @@ public class ScheduleController {
 	private IScheduleService scheduleService;
 
 	@Autowired
-	private ITransferService tranService;
+	@Qualifier("transferExecNotice")
+	private ITransferService transExecNoticeService;
 
 	@RequestMapping(value = "/{pk}", method = RequestMethod.GET)
 	public void delete(@PathVariable String pk) {
@@ -39,12 +45,26 @@ public class ScheduleController {
 
 	@RequestMapping(value = "/runone/{pk}", method = RequestMethod.GET)
 	public void runOne(@PathVariable String pk) {
-		tranService.transferOne(pk);
+		transExecNoticeService.transferOne(pk);
 	}
 
+	//	@RequestMapping(value = "/runall", method = RequestMethod.GET)
+	//	public void run() {
+	//		tranService.transfer();
+	//	}
 	@RequestMapping(value = "/runall", method = RequestMethod.GET)
-	public void run() {
-		tranService.transfer();
+	public void runAll(HttpServletRequest req, HttpServletResponse res){
+		System.out.println("==========================");
+		transExecNoticeService.transfer();
+		
+		
+		res.setContentType("text/plain");
+		String callbackFunName = req.getParameter("callbackparam");
+		try{
+			res.getWriter().write(callbackFunName + "([{ name : \"同步完成，请稍后刷新查看。\"}])");
+		} catch(IOException e){
+			e.printStackTrace();
+		}
 	}
 
 }
