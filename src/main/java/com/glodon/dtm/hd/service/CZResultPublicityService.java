@@ -7,6 +7,7 @@ package com.glodon.dtm.hd.service;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,15 +24,14 @@ public class CZResultPublicityService {
 	@Qualifier("jdbcSecondaryTemplate")
 	private JdbcTemplate jdbcSecondaryTemplate;
 
-	public boolean isExists(String bbid) {
-		int count = jdbcSecondaryTemplate.queryForObject("SELECT count(1) FROM t_hdggzy_zbjg WHERE bbid=?", new String[] { bbid }, Integer.class);
-		if (count > 0) {
-			return true;
+	public CZ_ResultPublicity findOne(String bbid) {
+		List<CZ_ResultPublicity> notices = jdbcSecondaryTemplate.query("SELECT * FROM t_hdggzy_zbjg WHERE bbid=?", new String[] { bbid }, new CZ_ResultPublicityMapper());
+		if (notices == null || notices.size() < 1) {
+			return null;
 		}
-
-		return false;
+		return notices.get(0);
 	}
-
+	
 	public int deleteDetailByPk(String bbid) {
 		int count = jdbcSecondaryTemplate.update("delete FROM t_hdggzy_zbjg WHERE bbid=" + bbid);
 
@@ -57,7 +57,7 @@ public class CZResultPublicityService {
 			CZ_ResultPublicity notice = new CZ_ResultPublicity();
 			notice.setXmid(rs.getString("xmid"));
 			notice.setBbid(rs.getString("bbid"));
-			notice.setShzt(new BigDecimal("1"));
+			notice.setShzt(new BigDecimal("0"));
 			notice.setLrsj(rs.getDate("lrsj"));
 			notice.setLrr(rs.getString("lrr"));
 			notice.setZbgysmc(rs.getString("zbgysmc"));

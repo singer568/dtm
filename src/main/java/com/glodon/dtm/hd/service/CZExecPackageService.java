@@ -4,6 +4,7 @@
  */
 package com.glodon.dtm.hd.service;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -22,6 +23,17 @@ public class CZExecPackageService {
 	@Qualifier("jdbcSecondaryTemplate")
 	private JdbcTemplate jdbcSecondaryTemplate;
 
+	
+	public boolean isExists(BigDecimal xmid) {
+		int count = jdbcSecondaryTemplate.queryForObject("SELECT count(1) FROM t_ggzy_zxtzs_xm WHERE XMID=?",
+				new BigDecimal[] { xmid}, Integer.class);
+		if (count > 0) {
+			return true;
+		}
+
+		return false;
+	}
+	
 	public int deleteAll() {
 		int count = jdbcSecondaryTemplate.update("delete FROM t_ggzy_zxtzs_xm");
 

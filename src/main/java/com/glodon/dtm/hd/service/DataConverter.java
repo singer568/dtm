@@ -80,7 +80,7 @@ public class DataConverter {
 		cz.setLrr(hd.getLrr());
 		cz.setLrsj(hd.getLrsj());
 		cz.setSfbgcgfs(hd.getSfbgcgfs());
-		cz.setShzt(new BigDecimal("1"));
+		cz.setShzt(new BigDecimal("0"));
 		cz.setXmid(hd.getXmid());
 		cz.setZbbh(hd.getZbbh());
 		String dm = getTenderWayNum(hd.getZbcgfsdm());

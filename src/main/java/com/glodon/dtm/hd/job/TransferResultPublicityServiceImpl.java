@@ -72,10 +72,11 @@ public class TransferResultPublicityServiceImpl implements ITransferService {
 	}
 
 	private void saveNotice(HD_ResultPublicity hd) {
-		boolean isExist = czService.isExists(hd.getBbid());
-		if (isExist) {
-			return;
+		CZ_ResultPublicity cz_publicity = czService.findOne(hd.getBbid());
+		if(null != cz_publicity && null != cz_publicity.getBbid()){
+			return; //已经存在了就不再更新
 		}
+		
 		CZ_ResultPublicity cz = DataConverter.convertOne(hd);
 		czService.save(cz);
 	}

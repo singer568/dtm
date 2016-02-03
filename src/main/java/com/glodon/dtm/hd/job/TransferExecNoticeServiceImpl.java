@@ -15,12 +15,14 @@ import com.glodon.dtm.common.plugin.ITransferService;
 import com.glodon.dtm.common.repository.ILogRepository;
 import com.glodon.dtm.common.util.DateUtil;
 import com.glodon.dtm.hd.ExtraScheduleConfig;
+import com.glodon.dtm.hd.model.CZ_ExecPackage;
 import com.glodon.dtm.hd.model.CZ_ExecuteNotice;
 import com.glodon.dtm.hd.model.CZ_ExecuteNoticeDetail;
 import com.glodon.dtm.hd.model.CZ_ExecuteNoticeTZ;
 import com.glodon.dtm.hd.model.HD_ExecuteNotice;
 import com.glodon.dtm.hd.model.HD_ExecuteNoticeDetail;
 import com.glodon.dtm.hd.model.HD_ExecuteNoticeTZ;
+import com.glodon.dtm.hd.service.CZExecPackageService;
 import com.glodon.dtm.hd.service.CZExecuteNoticeService;
 import com.glodon.dtm.hd.service.DataConverter;
 import com.glodon.dtm.hd.service.HDExecuteNoticeService;
@@ -33,6 +35,9 @@ public class TransferExecNoticeServiceImpl implements ITransferService {
 
 	@Autowired
 	private HDExecuteNoticeService hdService;
+	
+	@Autowired
+	private CZExecPackageService czExeService;
 
 	@Autowired
 	private ILogRepository logService;
@@ -55,7 +60,8 @@ public class TransferExecNoticeServiceImpl implements ITransferService {
 		if (czLst != null && czLst.size() > 0) {
 			allCount = czLst.size();
 		}
-
+		czExeService.deleteAll();//全删再插，仅一个字段有效
+		
 		for (int i = 0; null != czLst && i < czLst.size(); i++) {
 			CZ_ExecuteNotice czNotice = czLst.get(i);
 
@@ -64,6 +70,8 @@ public class TransferExecNoticeServiceImpl implements ITransferService {
 			saveDetails(czNotice);
 
 			saveTzs(czNotice);
+			
+			saveExed(czNotice);
 		}
 
 		log.setAllIds(allIds.toString());
@@ -78,6 +86,12 @@ public class TransferExecNoticeServiceImpl implements ITransferService {
 
 		logService.save(log);
 
+	}
+
+	private void saveExed(CZ_ExecuteNotice czNotice) {
+		CZ_ExecPackage o = new CZ_ExecPackage();
+		o.setXmid(czNotice.getXMID());
+		czExeService.save(o);
 	}
 
 	private void saveNotice(CZ_ExecuteNotice czNotice) {

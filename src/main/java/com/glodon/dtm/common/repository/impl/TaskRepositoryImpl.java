@@ -31,29 +31,34 @@ public class TaskRepositoryImpl implements ITaskRepository {
 	}
 
 	public int save(Task task) {
-		StringBuffer sql = new StringBuffer().append("insert into dtm_task (taskpk,taskcode,taskname,taskgroup, tasktype, taskcron) ").append(" values(?,?,?,?,?,?)");
+		StringBuffer sql = new StringBuffer().append("insert into dtm_task (taskpk,taskcode,taskname,taskgroup, tasktype, taskcron) ").append(
+				" values(?,?,?,?,?,?)");
 
-		Object[] params = new Object[] { task.getTaskPk(), task.getTaskCode(), task.getTaskName(), task.getTaskGroup(), task.getTaskType(), task.getTaskCron() };
+		Object[] params = new Object[] { task.getTaskPk(), task.getTaskCode(), task.getTaskName(), task.getTaskGroup(), task.getTaskType(),
+				task.getTaskCron() };
 
 		int count = jdbcThirdTemplate.update(sql.toString(), params);
 
 		return count;
 	}
-	public Task queryByNameGroup(String name, String group){
-		
-		try{
-			Task task = jdbcThirdTemplate.queryForObject("SELECT * FROM dtm_task where taskName = ? and taskGroup=?", new String[] { name,  group}, new JObMapper());
-			return task;
-		} catch(Exception e){
-			e.printStackTrace();
+
+	public Task queryByNameGroup(String name, String group) {
+
+		List<Task> notices = jdbcThirdTemplate.query("SELECT * FROM dtm_task where taskName = ? and taskGroup=?", new String[] { name, group },
+				new JObMapper());
+		if (notices == null || notices.size() < 1) {
 			return null;
 		}
+		return notices.get(0);
 	}
 
 	public Task queryByPk(String pk) {
-		Task task = jdbcThirdTemplate.queryForObject("SELECT * FROM dtm_task where taskPk = ?", new String[] { pk }, new JObMapper());
+		List<Task> notices = jdbcThirdTemplate.query("SELECT * FROM dtm_task where taskPk = ?", new String[] { pk }, new JObMapper());
+		if (notices == null || notices.size() < 1) {
+			return null;
+		}
 
-		return task;
+		return notices.get(0);
 	}
 
 	private class JObMapper implements RowMapper<Task> {
@@ -73,7 +78,8 @@ public class TaskRepositoryImpl implements ITaskRepository {
 	public int update(Task task) {
 		StringBuffer sql = new StringBuffer().append("update dtm_task set taskcode=?,taskname=?,taskgroup=?, tasktype=?, taskcron=? where taskpk=? ");
 
-		Object[] params = new Object[] {  task.getTaskCode(), task.getTaskName(), task.getTaskGroup(), task.getTaskType(), task.getTaskCron(), task.getTaskPk() };
+		Object[] params = new Object[] { task.getTaskCode(), task.getTaskName(), task.getTaskGroup(), task.getTaskType(), task.getTaskCron(),
+				task.getTaskPk() };
 
 		int count = jdbcThirdTemplate.update(sql.toString(), params);
 

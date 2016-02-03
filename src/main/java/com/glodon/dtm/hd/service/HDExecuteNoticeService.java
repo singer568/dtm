@@ -29,10 +29,13 @@ public class HDExecuteNoticeService {
 	private JdbcTemplate jdbcPrinaryTemplate;
 
 	public HD_ExecuteNotice findOne(BigDecimal xmid) {
-		HD_ExecuteNotice notice = jdbcPrinaryTemplate.queryForObject("SELECT * FROM gb_t_execute_notice WHERE XMID=?", new BigDecimal[] { xmid },
-				new HDExecuteNoticeMapper());
 
-		return notice;
+		List<HD_ExecuteNotice> notices = jdbcPrinaryTemplate.query("SELECT * FROM gb_t_execute_notice WHERE XMID=?", new BigDecimal[] { xmid },
+				new HDExecuteNoticeMapper());
+		if (notices == null || notices.size() < 1) {
+			return null;
+		}
+		return notices.get(0);
 	}
 
 	public int deleteByPk(BigDecimal xmid) {
@@ -42,8 +45,8 @@ public class HDExecuteNoticeService {
 	}
 
 	public boolean isExists(BigDecimal xmid) {
-		int count = jdbcPrinaryTemplate.queryForObject("SELECT count(1) FROM gb_t_execute_notice WHERE XMID=?",
-				new BigDecimal[] { xmid}, Integer.class);
+		int count = jdbcPrinaryTemplate.queryForObject("SELECT count(1) FROM gb_t_execute_notice WHERE XMID=?", new BigDecimal[] { xmid },
+				Integer.class);
 		if (count > 0) {
 			return true;
 		}
@@ -52,36 +55,37 @@ public class HDExecuteNoticeService {
 	}
 
 	public boolean isExistsDetail(BigDecimal xmid) {
-		int count = jdbcPrinaryTemplate.queryForObject("SELECT count(1) FROM gb_t_execute_notice_item WHERE XMID=?",
-				new BigDecimal[] { xmid}, Integer.class);
+		int count = jdbcPrinaryTemplate.queryForObject("SELECT count(1) FROM gb_t_execute_notice_item WHERE XMID=?", new BigDecimal[] { xmid },
+				Integer.class);
 		if (count > 0) {
 			return true;
 		}
 
 		return false;
 	}
-	
+
 	public int deleteDetailByPk(BigDecimal xmid) {
 		int count = jdbcPrinaryTemplate.update("delete FROM gb_t_execute_notice_item WHERE XMID=" + xmid);
 
 		return count;
 	}
+
 	public boolean isExistsTZ(BigDecimal xmid) {
-		int count = jdbcPrinaryTemplate.queryForObject("SELECT count(1) FROM gb_t_execute_notice_change WHERE XMID=?",
-				new BigDecimal[] { xmid}, Integer.class);
+		int count = jdbcPrinaryTemplate.queryForObject("SELECT count(1) FROM gb_t_execute_notice_change WHERE XMID=?", new BigDecimal[] { xmid },
+				Integer.class);
 		if (count > 0) {
 			return true;
 		}
 
 		return false;
 	}
+
 	public int deleteTZByPk(BigDecimal xmid) {
 		int count = jdbcPrinaryTemplate.update("delete FROM gb_t_execute_notice_change WHERE XMID=" + xmid);
 
 		return count;
 	}
-	
-	
+
 	public List<HD_ExecuteNotice> findAll() {
 		List<HD_ExecuteNotice> notices = jdbcPrinaryTemplate.query("SELECT * FROM gb_t_execute_notice", new HDExecuteNoticeMapper());
 

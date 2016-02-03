@@ -34,9 +34,11 @@ public class HDResultPublicityService {
 		buf.append(" left outer join gb_t_project_info c on a.project_id = c.project_id left outer join gb_r_execute_package d on b.package_id = d.package_id ");
 		buf.append(" where a.pub_status = 'PASSED'  and b.package_id=? ");
 
-		HD_ResultPublicity notices = jdbcPrinaryTemplate.queryForObject(buf.toString(), new String[] { bbid }, new HD_ResultPublicityMapper());
-
-		return notices;
+		List<HD_ResultPublicity> notices = jdbcPrinaryTemplate.query(buf.toString(), new String[] { bbid }, new HD_ResultPublicityMapper());
+		if (notices == null || notices.size() < 1) {
+			return null;
+		}
+		return notices.get(0);
 	}
 
 	public List<HD_ResultPublicity> findDatePair(Date startDate, Date endDate) {
@@ -76,7 +78,7 @@ public class HDResultPublicityService {
 			HD_ResultPublicity notice = new HD_ResultPublicity();
 			notice.setXmid(rs.getString("xmid"));
 			notice.setBbid(rs.getString("bbid"));
-			notice.setShzt("1");
+			notice.setShzt("0");
 			notice.setLrsj(rs.getDate("lrsj"));
 			notice.setLrr(rs.getString("lrr"));
 			notice.setZbgysmc(rs.getString("zbgysmc"));

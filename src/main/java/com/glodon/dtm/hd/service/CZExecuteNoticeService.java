@@ -29,15 +29,17 @@ public class CZExecuteNoticeService {
 	private JdbcTemplate jdbcSecondaryTemplate;
 
 	public CZ_ExecuteNotice findOne(String pk) {
-		CZ_ExecuteNotice notice = jdbcSecondaryTemplate.queryForObject("SELECT * FROM v_hdggzy_cglx WHERE XMID=?", new BigDecimal[] { new BigDecimal(
-				pk) }, new CZExecuteNoticeMapper());
-
-		return notice;
+		List<CZ_ExecuteNotice> notices = jdbcSecondaryTemplate.query("SELECT * FROM v_hdggzy_cglx WHERE XMID=?",
+				new BigDecimal[] { new BigDecimal(pk) }, new CZExecuteNoticeMapper());
+		if (notices == null || notices.size() < 1) {
+			return null;
+		}
+		return notices.get(0);
 	}
 
 	public List<CZ_ExecuteNotice> findDatePair(Date startDate, Date endDate) {
-		List<CZ_ExecuteNotice> notices = jdbcSecondaryTemplate.query("SELECT * FROM v_hdggzy_cglx where SZBSJ>=? and SZBSJ<=?", new Date[] { startDate,
-				endDate }, new CZExecuteNoticeMapper());
+		List<CZ_ExecuteNotice> notices = jdbcSecondaryTemplate.query("SELECT * FROM v_hdggzy_cglx where SZBSJ>=? and SZBSJ<=?", new Date[] {
+				startDate, endDate }, new CZExecuteNoticeMapper());
 
 		return notices;
 	}
@@ -63,8 +65,8 @@ public class CZExecuteNoticeService {
 	}
 
 	public List<CZ_ExecuteNoticeTZ> findTZByXMID(BigDecimal XMID) {
-		List<CZ_ExecuteNoticeTZ> notices = jdbcSecondaryTemplate.query("SELECT * FROM v_hdggzy_cglx_tz where XMID=?",
-				new BigDecimal[] { XMID }, new CZ_ExecuteNoticeTZMapper());
+		List<CZ_ExecuteNoticeTZ> notices = jdbcSecondaryTemplate.query("SELECT * FROM v_hdggzy_cglx_tz where XMID=?", new BigDecimal[] { XMID },
+				new CZ_ExecuteNoticeTZMapper());
 
 		return notices;
 	}
