@@ -15,7 +15,7 @@ import com.glodon.dtm.hd.ExtraScheduleConfig;
  * Created by andrew on 11/27/15.
  */
 @Configuration
-public class TransferExeNoticeJobConfig {
+public class TransferExecNoticeJobConfig {
 
 	@Autowired
 	private ExtraScheduleConfig extraConfig;
