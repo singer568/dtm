@@ -4,6 +4,7 @@
  */
 package com.glodon.dtm.hd.service;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -22,21 +23,19 @@ public class HDExecPackageService {
 	@Autowired
 	@Qualifier("jdbcPrimaryTemplate")
 	private JdbcTemplate jdbcPrinaryTemplate;
-	
 
 	public List<HD_ExecPackage> findByProjectId(String project_id) {
 		StringBuffer buf = new StringBuffer();
-		buf.append("select b.execute_notice_id, b.project_id, b.package_id from gb_t_project_info a inner join gb_r_execute_package b on a.project_id = b.project_id where a.project_id=" + project_id);
+		buf.append("select a.execute_notice_id, a.project_id from gb_t_project_exec_notice a where char_length(a.execute_notice_id)=10 and a.project_id=" + project_id);
 
 		List<HD_ExecPackage> notices = jdbcPrinaryTemplate.query(buf.toString(), new HD_ExecProjectMapper());
 
 		return notices;
 	}
-	
 
 	public List<HD_ExecPackage> findAll() {
 		StringBuffer buf = new StringBuffer();
-		buf.append("select b.execute_notice_id, b.project_id, b.package_id from gb_t_project_info a inner join gb_r_execute_package b on a.project_id = b.project_id ");
+		buf.append(" select a.execute_notice_id, a.project_id from gb_t_project_exec_notice a where char_length(a.execute_notice_id)=10");
 
 		List<HD_ExecPackage> notices = jdbcPrinaryTemplate.query(buf.toString(), new HD_ExecProjectMapper());
 
@@ -47,10 +46,10 @@ public class HDExecPackageService {
 
 		public HD_ExecPackage mapRow(ResultSet rs, int rowNum) throws SQLException {
 			HD_ExecPackage o = new HD_ExecPackage();
-			o.setXmid(rs.getBigDecimal("xmid"));
-			o.setExecute_notice_id(rs.getString("execute_notice_id"));
+			String xmid = rs.getString("execute_notice_id");
+			o.setXmid((xmid == null || "".equals(xmid.trim())) ? null : new BigDecimal(xmid));
+			o.setExecute_notice_id(xmid);
 			o.setProject_id(rs.getString("project_id"));
-			o.setPackage_id(rs.getString("package_id"));
 			return o;
 		}
 	}

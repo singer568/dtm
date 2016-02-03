@@ -74,7 +74,7 @@ public class TransferExecNoticeServiceImpl implements ITransferService {
 
 		log.setCosts((Long.valueOf(log.getLongEndDate()) - Long.valueOf(log.getLongStartDate())) + "");
 
-		log.setPk(DateUtil.getCurrentDateStr());
+		log.setPk(DateUtil.getCurrentDateStr() + "_" + log.getTransType());
 
 		logService.save(log);
 
