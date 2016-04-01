@@ -105,6 +105,7 @@ public class CZExecuteNoticeService {
 			notice.setLXRQ(rs.getDate("LXRQ"));
 			notice.setSFZF(rs.getBigDecimal("SFZF"));
 			notice.setSJ(rs.getDate("SJ"));
+			notice.setCZJKS(rs.getString("CZJKS"));
 			return notice;
 		}
 
@@ -134,7 +135,10 @@ public class CZExecuteNoticeService {
 			notice.setTZRQ(rs.getDate("TZRQ"));
 			notice.setTZCS(rs.getBigDecimal("TZCS"));
 			notice.setTZID(rs.getBigDecimal("TZID"));
-
+			
+			notice.setCZJLXR(rs.getString("CZJLXR"));
+			notice.setCZJLXDH(rs.getString("CZJLXDH"));
+			
 			return notice;
 		}
 	}

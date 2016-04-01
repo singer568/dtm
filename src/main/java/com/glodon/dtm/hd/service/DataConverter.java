@@ -109,6 +109,8 @@ public class DataConverter {
 		hd.setTzrq(cz.getTZRQ());
 		hd.setTzcs(cz.getTZCS() + "");
 		hd.setTzid(cz.getTZID() + "");
+		hd.setFinance_person(cz.getCZJLXR());
+		hd.setFinance_phone(cz.getCZJLXDH());
 		return hd;
 	}
 
@@ -154,10 +156,10 @@ public class DataConverter {
 		hd.setCreate_date(DateUtil.getCurrentDate());
 		hd.setTender_way(cz.getCGFSDM() == null ? null : getTenderWay(cz.getCGFSDM().toString()));
 		hd.setExecute_notice_id(cz.getXMID().toString());
-		hd.setRecord_status("COMMITTED");
+		hd.setRecord_status("NOACCEPT");
 		hd.setAgency_id("");
 		hd.setOwner_id("");
-
+		hd.setFinance_ks(cz.getCZJKS());
 		return hd;
 	}
 

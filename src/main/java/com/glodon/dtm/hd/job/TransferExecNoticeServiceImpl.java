@@ -97,7 +97,8 @@ public class TransferExecNoticeServiceImpl implements ITransferService {
 	private void saveNotice(CZ_ExecuteNotice czNotice) {
 		boolean isExist = hdService.isExists(czNotice.getXMID());
 		if (isExist) {
-			hdService.deleteByPk(czNotice.getXMID());
+			return;
+			//hdService.deleteByPk(czNotice.getXMID());
 		}
 		HD_ExecuteNotice hdNotice = DataConverter.convertOne(czNotice);
 		hdService.save(hdNotice);
@@ -108,7 +109,8 @@ public class TransferExecNoticeServiceImpl implements ITransferService {
 		for (int j = 0; null != tzs && j < tzs.size(); j++) {
 			CZ_ExecuteNoticeTZ czTz = tzs.get(j);
 			if (hdService.isExistsTZ(czNotice.getXMID())) {
-				hdService.deleteTZByPk(czNotice.getXMID());
+				continue;
+				//hdService.deleteTZByPk(czNotice.getXMID());
 			}
 			HD_ExecuteNoticeTZ hdTz = DataConverter.convertOne(czTz);
 			hdService.saveTZ(hdTz);
@@ -120,7 +122,8 @@ public class TransferExecNoticeServiceImpl implements ITransferService {
 		for (int j = 0; null != details && j < details.size(); j++) {
 			CZ_ExecuteNoticeDetail czDetail = details.get(j);
 			if (hdService.isExistsDetail(czNotice.getXMID())) {
-				hdService.deleteDetailByPk(czNotice.getXMID());
+				continue;
+				//hdService.deleteDetailByPk(czNotice.getXMID());
 			}
 			HD_ExecuteNoticeDetail hdDetail = DataConverter.convertOne(czDetail);
 			hdService.saveDetail(hdDetail);

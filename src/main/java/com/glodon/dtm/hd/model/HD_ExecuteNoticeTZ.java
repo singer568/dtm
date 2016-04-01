@@ -39,6 +39,12 @@ public class HD_ExecuteNoticeTZ implements Serializable {
 	//"调整主键")
 	private String tzid;
 
+	/** 财政局联系人 */
+	private String finance_person;
+
+	/** 财政局联系电话 */
+	private String finance_phone;
+	
 	public HD_ExecuteNoticeTZ() {
 
 	}
@@ -49,6 +55,26 @@ public class HD_ExecuteNoticeTZ implements Serializable {
 
 	public void setChange_id(String change_id) {
 		this.change_id = change_id;
+	}
+
+	
+	public String getFinance_person() {
+		return finance_person;
+	}
+
+	
+	public void setFinance_person(String finance_person) {
+		this.finance_person = finance_person;
+	}
+
+	
+	public String getFinance_phone() {
+		return finance_phone;
+	}
+
+	
+	public void setFinance_phone(String finance_phone) {
+		this.finance_phone = finance_phone;
 	}
 
 	public String getExecute_notice_id() {

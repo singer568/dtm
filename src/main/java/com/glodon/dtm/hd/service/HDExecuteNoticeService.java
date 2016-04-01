@@ -93,16 +93,16 @@ public class HDExecuteNoticeService {
 	}
 
 	public int save(HD_ExecuteNotice notice) {
-		StringBuffer sql = new StringBuffer().append("insert into gb_t_execute_notice (EXECUTE_NOTICE_ID,XMID,PROCUREMENT_UNIT_CODE,")
+		StringBuffer sql = new StringBuffer().append("insert into gb_t_execute_notice (FINANCE_KS, EXECUTE_NOTICE_ID,XMID,PROCUREMENT_UNIT_CODE,")
 				.append("PROCUREMENT_UNIT,PROJECT_NAME,NOTICE_CODE,PROJECT_AMOUNT,BALANCE,")
 				.append("FINANCE_AID_AMOUNT,FINANCE_SPECIAL_AMOUNT,OTHER_AMOUNT,PROJECT_CATEGORY_CODE,")
 				.append("PROJECT_CATEGORY,ADVANCE_ITEM,EQUITY,MARKET_BID,").append("FLOOR_PRICE,SINGEL_PRICE,QULIFICATIONS,")
 				.append("IMPORTS,UNIT_PERSON,UNIT_PHONE,").append("FINANCE_PERSON,FINANCE_PHONE,AGENCY_NAME,")
 				.append("AGENCY_CODE,AGENCY_ID,AGENCY_CONTACT_PERSON,").append("ESTABLISH_DATE,IS_CANCEL,TIMESTAMP,")
 				.append("CREATE_DATE,OWNER_ID,TENDER_WAY,").append("RECORD_STATUS)")
-				.append(" values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+				.append(" values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
-		Object[] params = new Object[] { notice.getExecute_notice_id(), notice.getXmid(), notice.getProcurement_unit_code(),
+		Object[] params = new Object[] {notice.getFinance_ks(), notice.getExecute_notice_id(), notice.getXmid(), notice.getProcurement_unit_code(),
 				notice.getProcurement_unit(), notice.getProject_name(), notice.getNotice_code(), notice.getProject_amount(), notice.getBalance(),
 				notice.getFinance_aid_amount(), notice.getFinance_special_amount(), notice.getOther_amount(), notice.getProject_category_code(),
 				notice.getProject_category(), notice.getAdvance_item(), notice.getEquity(), notice.getMarket_bid(), notice.getFloor_price(),
@@ -131,10 +131,10 @@ public class HDExecuteNoticeService {
 
 	public int saveTZ(HD_ExecuteNoticeTZ notice) {
 		StringBuffer sql = new StringBuffer().append(
-				"insert into gb_t_execute_notice_change (CHANGE_ID,EXECUTE_NOTICE_ID,TZCS,TZID,TZJE,TZRQ,TZSM,TZSX,XMID)").append(
-				" values(?,?,?,?,?,?,?,?,?)");
+				"insert into gb_t_execute_notice_change (FINANCE_PERSON, FINANCE_PHONE, CHANGE_ID,EXECUTE_NOTICE_ID,TZCS,TZID,TZJE,TZRQ,TZSM,TZSX,XMID)").append(
+				" values(?,?,?,?,?,?,?,?,?,?,?)");
 
-		Object[] params = new Object[] { notice.getChange_id(), notice.getExecute_notice_id(), notice.getTzcs(), notice.getTzid(), notice.getTzje(),
+		Object[] params = new Object[] {notice.getFinance_person(), notice.getFinance_phone(), notice.getChange_id(), notice.getExecute_notice_id(), notice.getTzcs(), notice.getTzid(), notice.getTzje(),
 				notice.getTzrq(), notice.getTzsm(), notice.getTzsx(), notice.getXmid() };
 
 		int count = jdbcPrinaryTemplate.update(sql.toString(), params);
@@ -149,8 +149,8 @@ public class HDExecuteNoticeService {
 				.append("PROJECT_CATEGORY,ADVANCE_ITEM,EQUITY,MARKET_BID,").append("FLOOR_PRICE,SINGEL_PRICE,QULIFICATIONS,")
 				.append("IMPORTS,UNIT_PERSON,UNIT_PHONE,").append("FINANCE_PERSON,FINANCE_PHONE,AGENCY_NAME,")
 				.append("AGENCY_CODE,AGENCY_ID,AGENCY_CONTACT_PERSON,").append("ESTABLISH_DATE,IS_CANCEL,TIMESTAMP,")
-				.append("CREATE_DATE,OWNER_ID,TENDER_WAY,").append("RECORD_STATUS)")
-				.append(" values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+				.append("CREATE_DATE,OWNER_ID,TENDER_WAY,").append("RECORD_STATUS, FINANCE_KS)")
+				.append(" values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
 		jdbcPrinaryTemplate.batchUpdate(sql.toString(), new BatchPreparedStatementSetter() {
 
@@ -195,6 +195,7 @@ public class HDExecuteNoticeService {
 
 				ps.setString(34, notice.getTender_way());
 				ps.setString(35, notice.getRecord_status());
+				ps.setString(36, notice.getFinance_ks());
 			}
 
 			public int getBatchSize() {
@@ -241,6 +242,7 @@ public class HDExecuteNoticeService {
 			notice.setCreate_date(rs.getDate("create_date"));
 			notice.setOwner_id(rs.getString("owner_id"));
 			notice.setRecord_status(rs.getString("record_status"));
+			notice.setFinance_ks(rs.getString("finance_ks"));
 			return notice;
 		}
 
@@ -276,6 +278,8 @@ public class HDExecuteNoticeService {
 			notice.setTzrq(rs.getDate("tzrq"));
 			notice.setTzcs(rs.getString("tzcs"));
 			notice.setTzid(rs.getString("tzid"));
+			notice.setFinance_person(rs.getString("finance_person"));
+			notice.setFinance_phone(rs.getString("finance_phone"));
 			return notice;
 		}
 

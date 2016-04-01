@@ -33,9 +33,35 @@ public class CZ_ExecuteNoticeTZ implements Serializable {
 
 	//项目主键
 	private BigDecimal XMID;
+	
+	/** 财政局联系人	　 */
+	private String CZJLXR;
+
+	/** 财政局联系电话	　 */
+	private String CZJLXDH;
+	
 
 	public CZ_ExecuteNoticeTZ() {
 
+	}
+
+	public String getCZJLXR() {
+		return CZJLXR;
+	}
+
+	
+	public void setCZJLXR(String cZJLXR) {
+		CZJLXR = cZJLXR;
+	}
+
+	
+	public String getCZJLXDH() {
+		return CZJLXDH;
+	}
+
+	
+	public void setCZJLXDH(String cZJLXDH) {
+		CZJLXDH = cZJLXDH;
 	}
 
 	public String getTZSX() {

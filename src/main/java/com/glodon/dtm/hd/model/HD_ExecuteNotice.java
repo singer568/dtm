@@ -87,6 +87,8 @@ public class HD_ExecuteNotice implements Serializable {
 
 	/** 财政局联系电话 */
 	private String finance_phone;
+	/** 财政局科室 */
+	private String finance_ks;
 
 	/** 采购代理机构名称 */
 	private String agency_name;
@@ -126,6 +128,16 @@ public class HD_ExecuteNotice implements Serializable {
 
 	public void setExecute_notice_id(String execute_notice_id) {
 		this.execute_notice_id = execute_notice_id;
+	}
+
+	
+	public String getFinance_ks() {
+		return finance_ks;
+	}
+
+	
+	public void setFinance_ks(String finance_ks) {
+		this.finance_ks = finance_ks;
 	}
 
 	public String getAdvance_item() {

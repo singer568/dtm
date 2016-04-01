@@ -102,9 +102,23 @@ public class CZ_ExecuteNotice implements Serializable {
 
 	/** 时间戳	　 */
 	private Date SJ;
+	
+	/** 财政局科室 */
+	private  String CZJKS;
+	
 
 	public CZ_ExecuteNotice() {
 
+	}
+
+	
+	public String getCZJKS() {
+		return CZJKS;
+	}
+
+	
+	public void setCZJKS(String cZJKS) {
+		CZJKS = cZJKS;
 	}
 
 	public BigDecimal getXMID() {
