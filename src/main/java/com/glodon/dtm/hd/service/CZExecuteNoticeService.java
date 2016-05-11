@@ -78,6 +78,8 @@ public class CZExecuteNoticeService {
 			notice.setXMID(rs.getBigDecimal("XMID"));
 			notice.setCGDWDM(rs.getString("CGDWDM"));
 			notice.setCGDWMC(rs.getString("CGDWMC"));
+			notice.setCGZXDWMC(rs.getString("CGZXDWMC"));
+
 			notice.setCGXMMC(rs.getString("CGXMMC"));
 			notice.setXMZXTZSBH(rs.getString("XMZXTZSBH"));
 			notice.setCGFSDM(rs.getBigDecimal("CGFSDM"));

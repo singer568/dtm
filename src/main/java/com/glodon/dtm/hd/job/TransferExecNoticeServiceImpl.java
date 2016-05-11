@@ -108,7 +108,7 @@ public class TransferExecNoticeServiceImpl implements ITransferService {
 		List<CZ_ExecuteNoticeTZ> tzs = czService.findTZByXMID(czNotice.getXMID());
 		for (int j = 0; null != tzs && j < tzs.size(); j++) {
 			CZ_ExecuteNoticeTZ czTz = tzs.get(j);
-			if (hdService.isExistsTZ(czNotice.getXMID())) {
+			if (hdService.isExistsTZ(czTz.getTZID())) {
 				continue;
 				//hdService.deleteTZByPk(czNotice.getXMID());
 			}
@@ -121,7 +121,7 @@ public class TransferExecNoticeServiceImpl implements ITransferService {
 		List<CZ_ExecuteNoticeDetail> details = czService.findDetailByXMID(czNotice.getXMID());
 		for (int j = 0; null != details && j < details.size(); j++) {
 			CZ_ExecuteNoticeDetail czDetail = details.get(j);
-			if (hdService.isExistsDetail(czNotice.getXMID())) {
+			if (hdService.isExistsDetail(czDetail.getCGMXID())) {
 				continue;
 				//hdService.deleteDetailByPk(czNotice.getXMID());
 			}

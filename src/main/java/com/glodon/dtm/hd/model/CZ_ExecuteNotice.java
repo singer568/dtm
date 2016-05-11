@@ -21,6 +21,9 @@ public class CZ_ExecuteNotice implements Serializable {
 
 	/** 采购单位名称	 */
 	private String CGDWMC;
+	
+	/** 采购执行单位名称 */
+	private String CGZXDWMC;
 
 	/** 采购项目名称	　 */
 	private String CGXMMC;
@@ -136,6 +139,18 @@ public class CZ_ExecuteNotice implements Serializable {
 	public void setCGDWDM(String cGDWDM) {
 		CGDWDM = cGDWDM;
 	}
+
+	
+	public String getCGZXDWMC() {
+		return CGZXDWMC;
+	}
+
+
+	
+	public void setCGZXDWMC(String cGZXDWMC) {
+		CGZXDWMC = cGZXDWMC;
+	}
+
 
 	public String getCGDWMC() {
 		return CGDWMC;

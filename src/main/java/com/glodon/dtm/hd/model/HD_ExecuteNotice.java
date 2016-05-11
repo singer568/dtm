@@ -22,8 +22,11 @@ public class HD_ExecuteNotice implements Serializable {
 	/** 采购单位代码 */
 	private String procurement_unit_code;
 
-	/** 采购单位名称 */
+	/** 采购单位名称   cz的采购单位对应hd的执行单位；   cz的执行单位对应hd的采购单位，改动量较小 */
 	private String procurement_unit;
+	
+	//采购执行单位名称
+	private String procurement_zxunit;
 
 	/** 采购项目名称 */
 	private String project_name;
@@ -258,6 +261,16 @@ public class HD_ExecuteNotice implements Serializable {
 
 	public void setOwner_id(String owner_id) {
 		this.owner_id = owner_id;
+	}
+
+	
+	public String getProcurement_zxunit() {
+		return procurement_zxunit;
+	}
+
+	
+	public void setProcurement_zxunit(String procurement_zxunit) {
+		this.procurement_zxunit = procurement_zxunit;
 	}
 
 	public String getProcurement_unit() {

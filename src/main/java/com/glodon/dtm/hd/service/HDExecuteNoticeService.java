@@ -54,8 +54,8 @@ public class HDExecuteNoticeService {
 		return false;
 	}
 
-	public boolean isExistsDetail(BigDecimal xmid) {
-		int count = jdbcPrinaryTemplate.queryForObject("SELECT count(1) FROM gb_t_execute_notice_item WHERE XMID=?", new BigDecimal[] { xmid },
+	public boolean isExistsDetail(BigDecimal cgmxid) {
+		int count = jdbcPrinaryTemplate.queryForObject("SELECT count(1) FROM gb_t_execute_notice_item WHERE item_id=?", new BigDecimal[] { cgmxid },
 				Integer.class);
 		if (count > 0) {
 			return true;
@@ -70,8 +70,8 @@ public class HDExecuteNoticeService {
 		return count;
 	}
 
-	public boolean isExistsTZ(BigDecimal xmid) {
-		int count = jdbcPrinaryTemplate.queryForObject("SELECT count(1) FROM gb_t_execute_notice_change WHERE XMID=?", new BigDecimal[] { xmid },
+	public boolean isExistsTZ(BigDecimal tzid) {
+		int count = jdbcPrinaryTemplate.queryForObject("SELECT count(1) FROM gb_t_execute_notice_change WHERE change_id=?", new BigDecimal[] { tzid },
 				Integer.class);
 		if (count > 0) {
 			return true;

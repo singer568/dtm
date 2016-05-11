@@ -126,7 +126,8 @@ public class DataConverter {
 		HD_ExecuteNotice hd = new HD_ExecuteNotice();
 		hd.setXmid(cz.getXMID().toString());
 		hd.setProcurement_unit_code(cz.getCGDWDM());
-		hd.setProcurement_unit(cz.getCGDWMC());
+		hd.setProcurement_unit(cz.getCGZXDWMC());//cz和海淀转换的时候错位转换，这样改动量最小
+		hd.setProcurement_zxunit(cz.getCGDWMC());
 		hd.setProject_name(cz.getCGXMMC());
 		hd.setNotice_code(cz.getXMZXTZSBH());
 		hd.setProject_amount(cz.getCGLXJE());
